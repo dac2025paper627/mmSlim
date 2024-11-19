@@ -112,7 +112,7 @@ def plot_and_save_image_comparison(x_original, x_reconstructed, i, idx, type):
 
     # Determine save directory
     folder = 'amplitude_image' if type == 0 else 'phase_image'
-    save_dir = f'/images_32/{folder}'
+    save_dir = f'./images_32/{folder}'
 
     # Create the folder if it doesn't exist
     if not os.path.exists(save_dir):
@@ -233,7 +233,7 @@ def train():
             # flops, params = thop.profile(model, inputs=(amp, ph))
             # print("%s | %s | %s" % ("Model", "Params(M)", "FLOPs(G)"))
             # print("------|-----------|------")
-            # print("%s | %.7f | %.7f" % ("模型  ", params / (1000 ** 2), flops / (1000 ** 3)))
+            # print("%s | %.7f | %.7f" % ("Model  ", params / (1000 ** 2), flops / (1000 ** 3)))
             amp_hat, amp1_embedding_loss, amp2_embedding_loss, amp1_perplexity, amp2_perplexity, recon_loss1, recon_loss2 = model(amp, ph)
             # embedding_loss, x_hat, perplexity = model(x)
             # print(x_hat.shape)
