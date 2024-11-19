@@ -39,8 +39,8 @@ tensorboard==2.13.0
 tensorboard-data-server @ file:///home/conda/feedstock_root/build_artifacts/tensorboard-data-server_1695425377577/work/tensorboard_data_server-0.7.0-py3-none-manylinux2014_x86_64.whl#sha256=11751b28e44b2a8840545cbda78535d37ed70e6cc0838e075f96451c4110e79a
 thop==0.1.1.post2209072238
 threadpoolctl==3.5.0
-torch @ file:///home/liangkun/torch-1.7.0%2Bcu110-cp38-cp38-linux_x86_64.whl#sha256=545fe3857adc19aac92469c95bcef5b5cf4329500a4214df4ed51890b6e12bc1
-torchvision @ file:///home/liangkun/torchvision-0.8.0-cp38-cp38-linux_x86_64.whl#sha256=914ceb8d7c2b1a58523711c13652760a7de48cc34ae76e1a9d80562a0642d3ba
+torch @ file:///home/torch-1.7.0%2Bcu110-cp38-cp38-linux_x86_64.whl#sha256=545fe3857adc19aac92469c95bcef5b5cf4329500a4214df4ed51890b6e12bc1
+torchvision @ file:///home/torchvision-0.8.0-cp38-cp38-linux_x86_64.whl#sha256=914ceb8d7c2b1a58523711c13652760a7de48cc34ae76e1a9d80562a0642d3ba
 tqdm==4.66.5
 typing_extensions==4.12.2
 tzdata==2024.2
