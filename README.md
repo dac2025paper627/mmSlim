@@ -94,8 +94,6 @@ Once training scripts are added, the `mmSlim.py` module will enable:
 ## How to Use
 
 Here’s the revised version of the **How to Use** section based on your requirements:
-
-```markdown
 ## How to Use
 
 ### Step 1: Install Python and Required Libraries
@@ -158,9 +156,11 @@ Here’s the revised version of the **How to Use** section based on your require
 
 ### Step 4: Train Phase Compression Model Using Saved Amplitude Parameters
 1. **Load the Saved Amplitude Model Parameters**:
-   Modify `mmSlim_train.py` to load the saved `MaskNet` parameters from the amplitude compression model. Add the following code snippet:
+   Modify `mmSlim_train.py` to load the saved `MaskNet` parameters from the amplitude compression model. Add the model relading code snippet like the following    
+   example :
    ```python
-   model.load_state_dict(torch.load('saved_models/amplitude_compression_model.pth'))
+   # state_dict=torch.load('./results/vqvae_data_sun_nov_10_01_18_16_2024end_to_end_dual_channel.pth')
+   # model.load_state_dict(state_dict['model'])
    ```
 
 2. **Adjust the Code for Phase Compression**:
