@@ -40,9 +40,9 @@ class Decoder(nn.Module):
 
 if __name__ == "__main__":
     decoder = Decoder()
-    z_q = torch.randn(32, 64, 14, 4)  # 示例输入
+    z_q = torch.randn(32, 64, 14, 4)
     output = decoder(z_q)
-    print('Decoder output shape:', output.shape)  # 应输出 [32, 1, 224, 64]
+    print('Decoder output shape:', output.shape)  # [32, 1, 224, 64]
 
 
 
