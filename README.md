@@ -72,64 +72,34 @@ Once training scripts are added, the `mmSlim.py` module will enable:
 
 ---
 
-## File Structure Context
 
-The project includes the following files:
+### Description of Files and Folders
 
-```
-README.md
-__init__.py
-decoder.py
-decoder2.py
-encoder.py
-encoder2.py
-masknet.py
-mmSlim.py
-quantizer.py
-residual.py
-vqvae1.py
-vqvae2.py
-```
+- **`dataset/`**: Contains the input data for the model.
+  - `amplitude/`: Includes compressed files (`part_1.zip`) containing amplitude-related data.
+  - `phase/`: Includes compressed files (`part_1.zip`) containing phase-related data.
 
-- **mmSlim.py**: Core module that integrates both VQVAEs and MaskNet.
-- **MaskNet**: Dynamically masks the input data to split it for processing by the two VQVAEs.
-- **First VQVAE**:
-  - `encoder.py`
-  - `decoder.py`
-  - `quantizer.py`
-  - `residual.py`
-- **Second VQVAE**:
-  - `encoder2.py`
-  - `decoder2.py`
-  - `quantizer.py` (shared with the first VQVAE)
-  - `residual.py` (shared with the first VQVAE)
+- **`models/`**: Folder for model-related definitions, such as VQVAE, MaskNet, and other custom modules.
+
+- **`README.md`**: This documentation file.
+
+- **`mmSlim_train.py`**: Core training script integrating all components of the pipeline.
+
+- **`requirements.txt`**: Lists the dependencies required to run this project.
+
+- **`single_utils.py`**: Contains utility functions for data preprocessing, loading, and augmentation.
 
 ---
 
 ## How to Use
 
-1. **Initialize the `mmSlim` Model**:
-   Use the components of the `mmSlim` module to define the architecture in your script.
+### Data Preparation
+1. **Unzip the Dataset**:
+   Unzip the files in `dataset/amplitude/` and `dataset/phase/` before running the training script.
 
-   Example:
-   ```python
-   from mmSlim import mmSlim
-
-   model = mmSlim(h_dim=128, res_h_dim=32, n_res_layers=2, 
-                  n_embeddings=512, embedding_dim=64, beta=0.25)
-   ```
-
-2. **Forward Pass**:
-   Once initialized, the model can process input data through `MaskNet` and the two VQVAEs.
-
-   Example:
-   ```python
-   input_data = torch.randn(32, 1, 224, 224)  # Example input
-   output = model(input_data)
-   ```
-
-3. **Training**:
-   Training scripts will be added to this repository later. These scripts will define the loss functions and optimization process.
+   ```bash
+   unzip dataset/amplitude/part_1.zip -d dataset/amplitude/
+   unzip dataset/phase/part_1.zip -d dataset/phase/
 
 ---
 
