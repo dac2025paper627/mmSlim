@@ -153,16 +153,10 @@ Contributions are welcome to enhance the functionality of `mmSlim.py`, add train
 
 ---
 
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
----
 
 ## Code and Data Availability
 
-The code and sample data for `mmSlim` have been uploaded to an anonymous GitHub repository.
+The code for `mmSlim` have been uploaded to an anonymous GitHub repository.
 
 ---
 
-Let me know if you need further adjustments or additional details!
