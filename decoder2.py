@@ -18,31 +18,31 @@ class Decoder(nn.Module):
         super(Decoder, self).__init__()
 
         self.inverse_conv_stack = nn.Sequential(
-            # 第一个反卷积层
-            nn.ConvTranspose2d(in_dim, h_dim, kernel_size=4, stride=2, padding=1),  # 输出 [32, 128, 28, 8]
+            # First deconvolution layer
+            nn.ConvTranspose2d(in_dim, h_dim, kernel_size=4, stride=2, padding=1),  # Output [32, 128, 28, 8]
             nn.BatchNorm2d(h_dim),
             nn.ReLU(),
-            # 残差层
+            # Residual layers
             ResidualStack(h_dim, h_dim, res_h_dim, n_res_layers),
-            # 第二个反卷积层
-            nn.ConvTranspose2d(h_dim, h_dim // 2, kernel_size=4, stride=2, padding=1),  # 输出 [32, 64, 56, 16]
+            # Second deconvolution layer
+            nn.ConvTranspose2d(h_dim, h_dim // 2, kernel_size=4, stride=2, padding=1),  # Output [32, 64, 56, 16]
             nn.BatchNorm2d(h_dim // 2),
             nn.ReLU(),
-            # 第三个反卷积层
-            nn.ConvTranspose2d(h_dim // 2, 1, kernel_size=4, stride=2, padding=1),  # 输出 [32, 1, 112, 32]
-            # 最后一个反卷积层，将形状从 [32, 1, 112, 32] 转换为 [32, 1, 224, 64]
-            nn.ConvTranspose2d(1, 1, kernel_size=4, stride=2, padding=1)  # 输出 [32, 1, 224, 64]
+            # Third deconvolution layer
+            nn.ConvTranspose2d(h_dim // 2, 1, kernel_size=4, stride=2, padding=1),  # Output [32, 1, 112, 32]
+            # Last deconvolution layer, changing shape from [32, 1, 112, 32] to [32, 1, 224, 64]
+            nn.ConvTranspose2d(1, 1, kernel_size=4, stride=2, padding=1)  # Output [32, 1, 224, 64]
         )
 
     def forward(self, x):
         return self.inverse_conv_stack(x)
 
-# 测试
+# Test
 if __name__ == "__main__":
     decoder = Decoder()
-    z_q = torch.randn(32, 64, 14, 4)  # 示例输入
+    z_q = torch.randn(32, 64, 14, 4)  # Example input
     output = decoder(z_q)
-    print('Decoder output shape:', output.shape)  # 应输出 [32, 1, 224, 64]
+    print('Decoder output shape:', output.shape)  # Should output [32, 1, 224, 64]
 
 
 # if __name__ == "__main__":
@@ -53,4 +53,4 @@ if __name__ == "__main__":
 #     # test decoder
 #     decoder = Decoder(40, 128, 3, 64)
 #     decoder_out = decoder(x)
-#     print('Dncoder out shape:', decoder_out.shape)
+#     print('Decoder out shape:', decoder_out.shape)
