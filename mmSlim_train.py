@@ -50,6 +50,9 @@ if args.save:
 training_data, validation_data, training_loader, validation_loader = single_utils.load_data_and_data_loaders(
     args.dataset, args.batch_size, args.amplitude_dir, args.phase_dir, save_npy_files=args.save_npy)
 
+#Use mask_path to load masknet params from the pretrained amplitude compression module
+#If you want to train the amplitude compression module,please leave the line as comment
+#and delete the masknet_path param of the model initialization part
 masknet_path = './results/vqvae_data_sun_nov_10_01_18_16_2024masknet_params.pth'
 
 # Set up VQ-VAE model
