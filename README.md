@@ -93,13 +93,84 @@ Once training scripts are added, the `mmSlim.py` module will enable:
 
 ## How to Use
 
-### Data Preparation
+Here’s the revised version of the **How to Use** section based on your requirements:
+
+```markdown
+## How to Use
+
+### Step 1: Install Python and Required Libraries
+1. **Install Python**:
+   Ensure you have Python 3.7 or 3.8 installed. If not, download and install it from [Python's official website](https://www.python.org/).
+
+2. **Install Dependencies**:
+   After installing Python, install the required libraries using `requirements.txt`:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+---
+
+### Step 2: Prepare the Dataset
 1. **Unzip the Dataset**:
-   Unzip the files in `dataset/amplitude/` and `dataset/phase/` before running the training script.
+   Unzip the files in `dataset/amplitude/` and `dataset/phase/` directories. This step prepares the amplitude and phase data for training.
 
    ```bash
    unzip dataset/amplitude/part_1.zip -d dataset/amplitude/
    unzip dataset/phase/part_1.zip -d dataset/phase/
+   ```
+
+2. **Verify Dataset Structure**:
+   Ensure that the unzipped files are placed correctly in their respective folders (`dataset/amplitude/` and `dataset/phase/`).
+
+---
+
+### Step 3: Train Amplitude Compression Model and Save Parameters
+1. **Modify `mmSlim_train.py`**:
+   Open the `mmSlim_train.py` file and adjust the training pipeline to focus on **amplitude compression**. 
+   - Ensure that the model processes the amplitude data (`dataset/amplitude/`).
+   - Update the training loop to specifically train the **MaskNet** and related components for amplitude compression.
+
+2. **Save the Model Parameters**:
+   Our mmSlim_train.py code will automatically save the trained model parameters for the amplitude compression model in results folder. The saved pth file may
+   be named as SAVE_MODEL_PATH + '/vqvae_data_' + timestamp+"end_to_end"+"_dual_channel" + '.pth', which is completed in the save_model_and_results method in    
+   single_utils.py:
+   ```python
+   def save_model_and_results(model, results, hyperparameters, timestamp):
+    SAVE_MODEL_PATH = "./results"
+
+    results_to_save = {
+        'model': model.state_dict(),
+        'results': results,
+        'hyperparameters': hyperparameters
+    }
+    torch.save(results_to_save, SAVE_MODEL_PATH + '/vqvae_data_' + timestamp + "_end_to_end" + "_dual_channel" + '.pth')
+
+   ```
+   This will save the model parameters after the amplitude compression training is completed.
+
+4. **Run the Training Script**:
+   Execute the training script to train the amplitude compression model:
+   ```bash
+   python mmSlim_train.py
+   ```
+
+---
+
+### Step 4: Train Phase Compression Model Using Saved Amplitude Parameters
+1. **Load the Saved Amplitude Model Parameters**:
+   Modify `mmSlim_train.py` to load the saved `MaskNet` parameters from the amplitude compression model. Add the following code snippet:
+   ```python
+   model.load_state_dict(torch.load('saved_models/amplitude_compression_model.pth'))
+   ```
+
+2. **Adjust the Code for Phase Compression**:
+   Update the training pipeline to process **phase data** from the `dataset/phase/` folder. Ensure that the model's input and loss functions are adjusted to focus on phase compression.
+
+3. **Train the Phase Compression Model**:
+   Run the script to train the model for phase compression using the loaded `MaskNet` parameters from the amplitude compression model:
+   ```bash
+   python mmSlim_train.py
+   ```
 
 ---
 
