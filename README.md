@@ -135,10 +135,16 @@ vqvae2.py
 
 ## Requirements
 
+
+### Dependencies
+
 The following dependencies are required to run the model:
-- Python 3.8+
-- PyTorch 1.8.1
-- NumPy
+
+- **Python**: 3.7.x or 3.8.x (tested on Python 3.8.20)
+- **PyTorch**: 1.8.1
+- **NumPy**: Compatible with the above Python and PyTorch versions
+
+Ensure that your Python environment meets the required version constraints, as the project is not compatible with Python versions lower than 3.7 or higher than 3.8.
 
 Additional dependencies may be listed in the `requirements.txt` file.
 
