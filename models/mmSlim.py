@@ -150,10 +150,7 @@ class mmSlim(nn.Module):
         return 1 - ssim_map.mean()  # Loss: we want to minimize the SSIM value
 
     def forward(self, x, amp, verbose=False):
-        if x is not None:
-            mask = self.masknet(x) #Phase training
-        else:
-            mask = self.masknet(amp)#Amplitude training
+        mask = self.masknet(x) #use amplitude to generate mask
         amp1 = mask * amp
         amp2 = (1 - mask) * amp
 
