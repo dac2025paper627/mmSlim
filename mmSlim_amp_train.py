@@ -165,13 +165,13 @@ def validate(idx):
         for batch_idx, x in enumerate(validation_loader):
             x = x.to(device)
             amp = x[:, 0, :, :].unsqueeze(1)
-            ph = x[:, 1, :, :].unsqueeze(1)
+            # ph = x[:, 1, :, :].unsqueeze(1)
 
             # Forward pass to get x_hat
-            ph_hat, amp1_embedding_loss, amp2_embedding_loss, amp1_perplexity, amp2_perplexity, recon_error1, recon_error2 = model(amp)
+            amp_hat, amp1_embedding_loss, amp2_embedding_loss, amp1_perplexity, amp2_perplexity, recon_error1, recon_error2 = model(amp,amp)
             # Calculate loss
             # amp_recon_loss = torch.mean((amp_hat - amp) ** 2)
-            amp_recon_loss = ssim_loss(ph, ph_hat)
+            amp_recon_loss = ssim_loss(amp, amp_hat)
             # amp_recon_loss = torch.mean((amp_hat - amp) ** 2) / amp_train_var
             # ph_recon_loss = torch.mean((ph_hat - ph) ** 2) / ph_train_var
             recon_loss = amp_recon_loss
@@ -228,8 +228,8 @@ def train():
             amp = x[:, 0, :, :]
             amp = amp.unsqueeze(1)
             # print(amp.shape)
-            ph = x[:, 1, :, :]
-            ph = ph.unsqueeze(1)
+            # ph = x[:, 1, :, :]
+            # ph = ph.unsqueeze(1)
 
             # Forward pass to get x_hat
             optimizer.zero_grad()
@@ -237,7 +237,7 @@ def train():
             # print("%s | %s | %s" % ("Model", "Params(M)", "FLOPs(G)"))
             # print("------|-----------|------")
             # print("%s | %.7f | %.7f" % ("Model  ", params / (1000 ** 2), flops / (1000 ** 3)))
-            amp_hat, amp1_embedding_loss, amp2_embedding_loss, amp1_perplexity, amp2_perplexity, recon_loss1, recon_loss2 = model(amp, ph)
+            amp_hat, amp1_embedding_loss, amp2_embedding_loss, amp1_perplexity, amp2_perplexity, recon_loss1, recon_loss2 = model(amp, amp)
             # embedding_loss, x_hat, perplexity = model(x)
             # print(x_hat.shape)
 
@@ -245,7 +245,7 @@ def train():
             # print(f"x_hat shape: {x_hat.shape}")
             # Calculate reconstruction loss
             # amp_recon_loss = torch.mean((amp_hat - amp) ** 2)
-            ssim_loss_temp = ssim_loss(ph, amp_hat)
+            ssim_loss_temp = ssim_loss(amp, amp_hat)
             # alpha = 0.8  # SSIM loss weight
             # beta = 0.2  # MSE loss weight
             # recon_loss = alpha * ssim_loss_temp + beta * torch.mean((amp_hat - ph) ** 2)
