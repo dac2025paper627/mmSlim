@@ -308,8 +308,8 @@ def train():
             if args.save:
                 hyperparameters = args.__dict__
                 utils.save_model_and_results(model, results, hyperparameters, timestamp)
-            plot_and_save_image_comparison(temp_x, temp_x_hat, i, idx, 1)
-            # plot_and_save_image_comparison(temp_x, temp_x_hat, i, idx, 0)
+            # plot_and_save_image_comparison(temp_x, temp_x_hat, i, idx, 1)
+            plot_and_save_image_comparison(temp_x, temp_x_hat, i, idx, 0)
 
         if i % 10 == 0:
             loss = validate(i)
