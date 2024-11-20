@@ -153,3 +153,5 @@ def save_model_and_results(model, results, hyperparameters, timestamp):
         'hyperparameters': hyperparameters
     }
     torch.save(results_to_save, SAVE_MODEL_PATH + '/vqvae_data_' + timestamp + "_end_to_end" + "_dual_channel" + '.pth')
+    masknet_params = model.masknet.state_dict()
+    torch.save(masknet_params, SAVE_MODEL_PATH + '/vqvae_data_' + timestamp+'masknet_params.pth')
