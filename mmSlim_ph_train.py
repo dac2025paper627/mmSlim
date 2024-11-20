@@ -31,8 +31,8 @@ parser.add_argument("--learning_rate_mask", type=float, default=5e-5)
 parser.add_argument("--log_interval", type=int, default=2)
 parser.add_argument("--dataset", type=str, default='CUSTOM')
 # parser.add_argument("--data_dir", type=str, default='./dataset/phase/0/2', help="Directory of the dataset")
-parser.add_argument("--amplitude_dir", type=str, default='./new_dataset_all_12/amplitude/data64', help="Directory of the dataset")
-parser.add_argument("--phase_dir", type=str, default='./new_dataset_all_12/phase/data64', help="Directory of the dataset")
+parser.add_argument("--amplitude_dir", type=str, default='./dataset/amplitude', help="Directory of the dataset")
+parser.add_argument("--phase_dir", type=str, default='./dataset/phase', help="Directory of the dataset")
 parser.add_argument("--save_npy", action="store_true", help="Save dataset as npy files")
 
 # Whether to save the model
@@ -53,6 +53,7 @@ training_data, validation_data, training_loader, validation_loader = single_util
 #Use mask_path to load masknet params from the pretrained amplitude compression module
 #If you want to train the amplitude compression module,please leave the line as comment
 #and delete the masknet_path param of the model initialization part
+#masknet_path should be generated automatically once you complete the amp_train
 masknet_path = './results/vqvae_data_sun_nov_10_01_18_16_2024masknet_params.pth'
 
 # Set up VQ-VAE model
@@ -237,7 +238,7 @@ def train():
             # print("%s | %s | %s" % ("Model", "Params(M)", "FLOPs(G)"))
             # print("------|-----------|------")
             # print("%s | %.7f | %.7f" % ("Model  ", params / (1000 ** 2), flops / (1000 ** 3)))
-            amp_hat, amp1_embedding_loss, amp2_embedding_loss, amp1_perplexity, amp2_perplexity, recon_loss1, recon_loss2 = model(amp, ph)
+            ph_hat, amp1_embedding_loss, amp2_embedding_loss, amp1_perplexity, amp2_perplexity, recon_loss1, recon_loss2 = model(amp, ph)
             # embedding_loss, x_hat, perplexity = model(x)
             # print(x_hat.shape)
 
@@ -245,7 +246,7 @@ def train():
             # print(f"x_hat shape: {x_hat.shape}")
             # Calculate reconstruction loss
             # amp_recon_loss = torch.mean((amp_hat - amp) ** 2)
-            ssim_loss_temp = ssim_loss(ph, amp_hat)
+            ssim_loss_temp = ssim_loss(ph, ph_hat)
             # alpha = 0.8  # SSIM loss weight
             # beta = 0.2  # MSE loss weight
             # recon_loss = alpha * ssim_loss_temp + beta * torch.mean((amp_hat - ph) ** 2)
@@ -302,7 +303,7 @@ def train():
             count += 1
             idx = np.random.randint(x.size(0))
             temp_x = x[idx]
-            temp_x_hat = amp_hat[idx]
+            temp_x_hat = ph_hat[idx]
 
         if i % args.log_interval == 0:
             if args.save:
