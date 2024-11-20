@@ -31,8 +31,8 @@ parser.add_argument("--learning_rate_mask", type=float, default=5e-5)
 parser.add_argument("--log_interval", type=int, default=2)
 parser.add_argument("--dataset", type=str, default='CUSTOM')
 # parser.add_argument("--data_dir", type=str, default='./dataset/phase/0/2', help="Directory of the dataset")
-parser.add_argument("--amplitude_dir", type=str, default='./new_dataset_all_12/amplitude/data64', help="Directory of the dataset")
-parser.add_argument("--phase_dir", type=str, default='./new_dataset_all_12/phase/data64', help="Directory of the dataset")
+parser.add_argument("--amplitude_dir", type=str, default='./dataset/amplitude', help="Directory of the dataset")
+parser.add_argument("--phase_dir", type=str, default='./dataset/phase', help="Directory of the dataset")
 parser.add_argument("--save_npy", action="store_true", help="Save dataset as npy files")
 
 # Whether to save the model
@@ -168,7 +168,7 @@ def validate(idx):
             ph = x[:, 1, :, :].unsqueeze(1)
 
             # Forward pass to get x_hat
-            ph_hat, amp1_embedding_loss, amp2_embedding_loss, amp1_perplexity, amp2_perplexity, recon_error1, recon_error2 = model(amp, ph)
+            ph_hat, amp1_embedding_loss, amp2_embedding_loss, amp1_perplexity, amp2_perplexity, recon_error1, recon_error2 = model(amp)
             # Calculate loss
             # amp_recon_loss = torch.mean((amp_hat - amp) ** 2)
             amp_recon_loss = ssim_loss(ph, ph_hat)
