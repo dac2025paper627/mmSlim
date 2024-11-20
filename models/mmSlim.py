@@ -95,8 +95,8 @@ def plot_and_save_image_comparison(x_original, i, idx, type):
     plt.tight_layout()
 
     # Set save directory
-    folder = 'test_ph2' if type == 0 else 'test_ph3'
-    save_dir = f'/image32'
+    folder = 'test_amp' if type == 0 else 'test_ph'
+    save_dir = f'./image32'
 
     # Create the directory if it doesn't exist
     if not os.path.exists(save_dir):
@@ -150,7 +150,10 @@ class mmSlim(nn.Module):
         return 1 - ssim_map.mean()  # Loss: we want to minimize the SSIM value
 
     def forward(self, x, amp, verbose=False):
-        mask = self.masknet(x)  # Pass 'amp' as input to MaskNet
+        if x is not None:
+            mask = self.masknet(x) #Phase training
+        else:
+            mask = self.masknet(amp)#Amplitude training
         amp1 = mask * amp
         amp2 = (1 - mask) * amp
 
@@ -159,7 +162,6 @@ class mmSlim(nn.Module):
         amp2_embedding_loss, amp2_hat, amp2_perplexity, embedding_indices2 = self.vqvae_2(amp2)
         amp_hat = amp1_hat + amp2_hat
         amp_hat = amp_hat * (-1)
-        plot_and_save_image_comparison(amp_hat, 2, 2, 0)
 
         # SSIM loss calculation for each part
         ssim_loss1 = self.ssim_loss(amp1, amp1_hat)  # Replace with recon_error1
